@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeShare</title>
+  </head>
+  <body>
+    <h1>Share Code With Anyone</h1>
+
+    <button id="open">Open a code space</button>
+  </body>
+  <script>
+    const openButton = document.getElementById("open");
+
+    openButton.addEventListener("click", () => {
+      const protocol = window.location.protocol === "https:"
+        ? "wss:"
+        : "ws:";
+      const wsUrl = `${protocol}//${window.location.host}`;
+      const socket = new WebSocket(wsUrl);
+
+      socket.onopen = () => {
+        console.log("WebSocket connection opened.");
+      };
+
+      socket.onmessage = (event) => {
+        console.log("Message from server:", event.data);
+      };
+
+      socket.onclose = () => {
+        console.log("WebSocket connection closed.");
+      };
+
+      socket.onerror = (error) => {
+        console.error("WebSocket error:", error);
+      };
+    });
+  </script>
+</html>
